@@ -1,0 +1,7 @@
+19_01_2025 01:25:47 PM -(test_04_createPosts.py:11)- [INFO] Running test in environment: staging
+19_01_2025 01:25:47 PM -(api_actions.py:49)- [INFO] Request Type: POST
+19_01_2025 01:25:47 PM -(api_actions.py:52)- [INFO] Request URL: https://jsonplaceholder.typicode.com/posts
+19_01_2025 01:25:47 PM -(api_actions.py:56)- [INFO] Request Headers: {'Content-Type': 'application/json'}
+19_01_2025 01:25:47 PM -(api_actions.py:64)- [WARNING] No query parameters provided.
+19_01_2025 01:25:47 PM -(api_actions.py:68)- [INFO] Request Payload: {'title': 'Test Post', 'body': 'This is a new test post.', 'userId': 1}
+19_01_2025 01:25:47 PM -(api_actions.py:76)- [INFO] No file included in the request.

@@ -1,0 +1,7 @@
+19_01_2025 12:35:31 PM -(test_02_createUser.py:11)- [INFO] Running test in environment: staging
+19_01_2025 12:35:31 PM -(api_actions.py:50)- [INFO] Request Type: POST
+19_01_2025 12:35:31 PM -(api_actions.py:53)- [INFO] Request URL: https://jsonplaceholder.typicode.com/users
+19_01_2025 12:35:31 PM -(api_actions.py:57)- [INFO] Request Headers: {'Content-Type': 'application/json'}
+19_01_2025 12:35:31 PM -(api_actions.py:65)- [WARNING] No query parameters provided.
+19_01_2025 12:35:31 PM -(api_actions.py:69)- [INFO] Request Payload: {'name': 'dipak', 'username': 'dipak', 'email': 'dipak@example.com'}
+19_01_2025 12:35:31 PM -(api_actions.py:77)- [INFO] No file included in the request.
