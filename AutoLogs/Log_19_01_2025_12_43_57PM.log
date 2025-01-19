@@ -1,5 +1,0 @@
-19_01_2025 12:43:58 PM -(test_01_getPosts.py:11)- [INFO] Running test in environment: staging
-19_01_2025 12:43:58 PM -(api_actions.py:14)- [INFO] Request Method: GET
-19_01_2025 12:43:58 PM -(api_actions.py:20)- [INFO] Constructed URL: https://jsonplaceholder.typicode.com/posts
-19_01_2025 12:43:58 PM -(api_actions.py:26)- [INFO] No query parameters provided.
-19_01_2025 12:43:58 PM -(api_actions.py:32)- [INFO] No headers provided.

@@ -95,107 +95,107 @@ def setup_env(env):
     print(f"Loaded environment: {env}")
     return env
 
-# @pytest.hookimpl(hookwrapper=True)
-# def pytest_runtest_makereport(item, call):
-#     outcome = yield
-#     report = outcome.get_result()
-#     """
-#     Hook to track test results after each test phase.
-#     """
-#     package_name = item.module.__name__.split(".")[1]
-#     # Trim the test case path for easier readability
-#     trimmed_package_path = item.nodeid.replace("testcases/", "").rsplit("::", 1)[0]
-#
-#     env = None
-#     if hasattr(item, 'callspec'):
-#         env = item.callspec.params.get('env')
-#
-#     if not env:
-#         return
-#
-#     if package_name not in TEST_RESULTS[env]:
-#         TEST_RESULTS[env][package_name] = {'passed': 0, 'failed': 0, 'skipped': 0, 'total': 0, 'details': [] }
-#
-#     if report.when == "setup":
-#         # Increment total tests
-#         TEST_RESULTS[env][package_name]['total'] += 1
-#
-#     elif report.when == "call":
-#
-#         test_details = {
-#             "name": trimmed_package_path,
-#             "outcome": report.outcome,
-#             "duration": report.duration,
-#             "skip_reason": None,
-#             "fail_reason": None
-#         }
-#
-#
-#
-#         if report.outcome == "passed":
-#             TEST_RESULTS[env][package_name]['passed'] += 1
-#         elif report.outcome == "failed":
-#             TEST_RESULTS[env][package_name]['failed'] += 1
-#             if hasattr(report.longrepr, 'reprcrash'):
-#                 test_details["fail_reason"] = report.longrepr.reprcrash.message.splitlines()[0]
-#             else:
-#                 test_details["fail_reason"] = str(report.longrepr).splitlines()[0]
-#         elif report.outcome == "skipped":
-#             TEST_RESULTS[env][package_name]['skipped'] += 1
-#             if isinstance(report.longrepr, tuple):
-#                 test_details["skip_reason"] = str(report.longrepr[2])
-#             else:
-#                 test_details["skip_reason"] = str(report.longrepr)
-#
-#         # Add test details to the package
-#         TEST_RESULTS[env][package_name]['details'].append(test_details)
-#
-# def pytest_terminal_summary(terminalreporter, exitstatus):
-#
-#     """
-#     Print the test report at the end of the test run.
-#     """
-#     terminalreporter.write_line(generate_test_report())
-#
-#
-# def generate_test_report():
-#     """
-#     Generate a formatted test report string.
-#     """
-#     report_lines = ["===== Test Execution Report ====="]
-#
-#     for env, packages in TEST_RESULTS.items():
-#         report_lines.append(f"\nEnvironment: {env.upper()}")
-#         report_lines.append("-" * 30)
-#         failed_tests = []  # Collect failed tests for this environment
-#
-#         for package, results in packages.items():
-#             report_lines.append(f"Project: {package}")
-#             report_lines.append(f"  Total Tests:   {results['total']}")
-#
-#             if results['total'] > 0:
-#                 # Calculate percentages
-#                 pass_percentage = (results['passed'] / results['total']) * 100
-#                 fail_percentage = (results['failed'] / results['total']) * 100
-#                 skip_percentage = (results['skipped'] / results['total']) * 100
-#
-#                 report_lines.append(f"  Passed Tests:  {results['passed']} ({pass_percentage:.2f}%)")
-#                 report_lines.append(f"  Failed Tests:  {results['failed']} ({fail_percentage:.2f}%)")
-#                 report_lines.append(f"  Skipped Tests: {results['skipped']} ({skip_percentage:.2f}%)")
-#             else:
-#                 report_lines.append("  No tests executed in this package.")
-#
-#             # Collect failed test details
-#             for result in results['details']:
-#                 if result["outcome"] == "failed":
-#                     failed_tests.append(
-#                         f"    - {result['name']} - FAILED (Reason: {result['fail_reason']})"
-#                     )
-#
-#         # Add failed test results for the environment
-#         if failed_tests:
-#             report_lines.append("\nFailed Test Results:")
-#             report_lines.extend(failed_tests)
-#
-#     report_lines.append("\n===== End of Test Report =====")
-#     return "\n".join(report_lines)
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+    """
+    Hook to track test results after each test phase.
+    """
+    package_name = item.module.__name__.split(".")[1]
+    # Trim the test case path for easier readability
+    trimmed_package_path = item.nodeid.replace("testcases/", "").rsplit("::", 1)[0]
+
+    env = None
+    if hasattr(item, 'callspec'):
+        env = item.callspec.params.get('env')
+
+    if not env:
+        return
+
+    if package_name not in TEST_RESULTS[env]:
+        TEST_RESULTS[env][package_name] = {'passed': 0, 'failed': 0, 'skipped': 0, 'total': 0, 'details': [] }
+
+    if report.when == "setup":
+        # Increment total tests
+        TEST_RESULTS[env][package_name]['total'] += 1
+
+    elif report.when == "call":
+
+        test_details = {
+            "name": trimmed_package_path,
+            "outcome": report.outcome,
+            "duration": report.duration,
+            "skip_reason": None,
+            "fail_reason": None
+        }
+
+
+
+        if report.outcome == "passed":
+            TEST_RESULTS[env][package_name]['passed'] += 1
+        elif report.outcome == "failed":
+            TEST_RESULTS[env][package_name]['failed'] += 1
+            if hasattr(report.longrepr, 'reprcrash'):
+                test_details["fail_reason"] = report.longrepr.reprcrash.message.splitlines()[0]
+            else:
+                test_details["fail_reason"] = str(report.longrepr).splitlines()[0]
+        elif report.outcome == "skipped":
+            TEST_RESULTS[env][package_name]['skipped'] += 1
+            if isinstance(report.longrepr, tuple):
+                test_details["skip_reason"] = str(report.longrepr[2])
+            else:
+                test_details["skip_reason"] = str(report.longrepr)
+
+        # Add test details to the package
+        TEST_RESULTS[env][package_name]['details'].append(test_details)
+
+def pytest_terminal_summary(terminalreporter, exitstatus):
+
+    """
+    Print the test report at the end of the test run.
+    """
+    terminalreporter.write_line(generate_test_report())
+
+
+def generate_test_report():
+    """
+    Generate a formatted test report string.
+    """
+    report_lines = ["===== Test Execution Report ====="]
+
+    for env, packages in TEST_RESULTS.items():
+        report_lines.append(f"\nEnvironment: {env.upper()}")
+        report_lines.append("-" * 30)
+        failed_tests = []  # Collect failed tests for this environment
+
+        for package, results in packages.items():
+            report_lines.append(f"Project: {package}")
+            report_lines.append(f"  Total Tests:   {results['total']}")
+
+            if results['total'] > 0:
+                # Calculate percentages
+                pass_percentage = (results['passed'] / results['total']) * 100
+                fail_percentage = (results['failed'] / results['total']) * 100
+                skip_percentage = (results['skipped'] / results['total']) * 100
+
+                report_lines.append(f"  Passed Tests:  {results['passed']} ({pass_percentage:.2f}%)")
+                report_lines.append(f"  Failed Tests:  {results['failed']} ({fail_percentage:.2f}%)")
+                report_lines.append(f"  Skipped Tests: {results['skipped']} ({skip_percentage:.2f}%)")
+            else:
+                report_lines.append("  No tests executed in this package.")
+
+            # Collect failed test details
+            for result in results['details']:
+                if result["outcome"] == "failed":
+                    failed_tests.append(
+                        f"    - {result['name']} - FAILED (Reason: {result['fail_reason']})"
+                    )
+
+        # Add failed test results for the environment
+        if failed_tests:
+            report_lines.append("\nFailed Test Results:")
+            report_lines.extend(failed_tests)
+
+    report_lines.append("\n===== End of Test Report =====")
+    return "\n".join(report_lines)
